@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChirpRequest;
 use App\Models\Chirp;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -72,13 +73,19 @@ class ChirpController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Inertia\Request  $request
+     * @param  \App\Http\Requests\ChirpRequest  $request
      * @param  \App\Models\Chirp  $chirp
-     * @return \Inertia\Response
+     * @return \Illuminate\Routing\Redirector
      */
-    public function update(Request $request, Chirp $chirp)
+    public function update(ChirpRequest $request, Chirp $chirp)
     {
-        //
+        $this->authorize('update', $chirp);
+
+        $validated = $request->validated();
+
+        $chirp->update($validated);
+
+        return redirect(route('chirps.index'));
     }
 
     /**
