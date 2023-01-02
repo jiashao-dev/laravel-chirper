@@ -1,4 +1,9 @@
 <script setup>
+    import dayjs from 'dayjs';
+    import relativeTime from 'dayjs/plugin/relativeTime';
+
+    dayjs.extend(relativeTime);
+
     defineProps(['chirp']);
 </script>
 
@@ -14,7 +19,7 @@
                         {{ chirp.user.name }}
                     </span>
                     <small class="ml-2 text-sm text-gray-600">
-                        {{ new Date(chirp.created_at).toLocaleString() }}
+                        {{ dayjs(chirp.created_at).fromNow() }}
                     </small>
                 </div>
             </div>
