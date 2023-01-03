@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ChirpRequest;
 use App\Models\Chirp;
+use App\Notifications\NewChirp;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -92,10 +93,14 @@ class ChirpController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Chirp  $chirp
-     * @return \Inertia\Response
+     * @return \Illuminate\Routing\Redirector
      */
     public function destroy(Chirp $chirp)
     {
-        //
+        $this->authorize('delete', $chirp);
+
+        $chirp->delete();
+
+        return redirect(route('chirps.index'));
     }
 }
